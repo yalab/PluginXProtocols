@@ -23,24 +23,14 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.plugin;
 
-public class SocialWrapper {
-	public static final int SHARERESULT_SUCCESS = 0;
-	public static final int SHARERESULT_FAIL    = 1;
-	public static final int SHARERESULT_CANCEL  = 2;
-	public static final int SHARERESULT_TIMEOUT = 3;
+import java.util.Hashtable;
 
-	public static void onShareResult(InterfaceSocial obj, int ret, String msg) {
-		final int curRet = ret;
-		final String curMsg = msg;
-		final InterfaceSocial curAdapter = obj;
-		PluginWrapper.runOnGLThread(new Runnable() {
-			@Override
-			public void run() {
-				String name = curAdapter.getClass().getName();
-				name = name.replace('.', '/');
-				nativeOnShareResult(name, curRet, curMsg);
-			}
-		});
-	}
-	private static native void nativeOnShareResult(String className, int ret, String msg);
+public interface InterfaceShare {
+	public final int PluginType = 4;
+
+	public void configDeveloperInfo(Hashtable<String, String> cpInfo);
+	public void share(Hashtable<String, String> cpInfo);
+	public void setDebugMode(boolean debug);
+	public String getSDKVersion();
+	public String getPluginVersion();
 }

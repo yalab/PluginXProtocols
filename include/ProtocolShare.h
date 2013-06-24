@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef  __CCX_PROTOCOL_SOCIAL_H__
-#define  __CCX_PROTOCOL_SOCIAL_H__
+#ifndef  __CCX_PROTOCOL_SHARE_H__
+#define  __CCX_PROTOCOL_SHARE_H__
 
 #include "PluginProtocol.h"
 #include <map>
@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 namespace cocos2d { namespace plugin {
 
-typedef std::map<std::string, std::string> TSocialDeveloperInfo;
+typedef std::map<std::string, std::string> TShareDeveloperInfo;
 typedef std::map<std::string, std::string> TShareInfo;
 
 typedef enum 
@@ -47,20 +47,20 @@ public:
     virtual void onShareResult(ShareResultCode ret, const char* msg) = 0;
 };
 
-class ProtocolSocial : public PluginProtocol
+class ProtocolShare : public PluginProtocol
 {
 public:
-	ProtocolSocial();
-	virtual ~ProtocolSocial();
+	ProtocolShare();
+	virtual ~ProtocolShare();
 
     /**
-    @brief config the social developer info
+    @brief config the share developer info
     @param devInfo This parameter is the info of developer,
            different plugin have different format
     @warning Must invoke this interface before other interfaces.
              And invoked only once.
     */
-    void configDeveloperInfo(TSocialDeveloperInfo devInfo);
+    void configDeveloperInfo(TShareDeveloperInfo devInfo);
 
     /**
     @brief share information
@@ -90,4 +90,4 @@ protected:
 
 }} // namespace cocos2d { namespace plugin {
 
-#endif   /* ----- #ifndef __CCX_PROTOCOL_SOCIAL_H__ ----- */
+#endif   /* ----- #ifndef __CCX_PROTOCOL_SHARE_H__ ----- */

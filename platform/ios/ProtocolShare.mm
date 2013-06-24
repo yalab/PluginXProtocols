@@ -21,22 +21,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "ProtocolSocial.h"
+#include "ProtocolShare.h"
 #include "PluginUtilsIOS.h"
-#import "InterfaceSocial.h"
+#import "InterfaceShare.h"
 
 namespace cocos2d { namespace plugin {
 
-ProtocolSocial::ProtocolSocial()
+ProtocolShare::ProtocolShare()
 : _listener(NULL)
 {
 }
 
-ProtocolSocial::~ProtocolSocial()
+ProtocolShare::~ProtocolShare()
 {
 }
 
-void ProtocolSocial::configDeveloperInfo(TSocialDeveloperInfo devInfo)
+void ProtocolShare::configDeveloperInfo(TShareDeveloperInfo devInfo)
 {
     if (devInfo.empty())
     {
@@ -49,15 +49,15 @@ void ProtocolSocial::configDeveloperInfo(TSocialDeveloperInfo devInfo)
         assert(pData != NULL);
         
         id ocObj = pData->obj;
-        if ([ocObj conformsToProtocol:@protocol(InterfaceSocial)]) {
-            NSObject<InterfaceSocial>* curObj = ocObj;
+        if ([ocObj conformsToProtocol:@protocol(InterfaceShare)]) {
+            NSObject<InterfaceShare>* curObj = ocObj;
             NSMutableDictionary* pDict = PluginUtilsIOS::createDictFromMap(&devInfo);
             [curObj configDeveloperInfo:pDict];
         }
     }
 }
 
-void ProtocolSocial::share(TShareInfo info)
+void ProtocolShare::share(TShareInfo info)
 {
     if (info.empty())
     {
@@ -74,20 +74,20 @@ void ProtocolSocial::share(TShareInfo info)
         assert(pData != NULL);
         
         id ocObj = pData->obj;
-        if ([ocObj conformsToProtocol:@protocol(InterfaceSocial)]) {
-            NSObject<InterfaceSocial>* curObj = ocObj;
+        if ([ocObj conformsToProtocol:@protocol(InterfaceShare)]) {
+            NSObject<InterfaceShare>* curObj = ocObj;
             NSMutableDictionary* pDict = PluginUtilsIOS::createDictFromMap(&info);
             [curObj share:pDict];
         }
     }
 }
 
-void ProtocolSocial::setResultListener(ShareResultListener* pListener)
+void ProtocolShare::setResultListener(ShareResultListener* pListener)
 {
 	_listener = pListener;
 }
 
-void ProtocolSocial::onShareResult(ShareResultCode ret, const char* msg)
+void ProtocolShare::onShareResult(ShareResultCode ret, const char* msg)
 {
     if (_listener)
     {
