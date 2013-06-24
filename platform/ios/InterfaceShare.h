@@ -1,7 +1,7 @@
 /****************************************************************************
-Copyright (c) 2012-2013 cocos2d-x.org
+Copyright (c) 2012+2013 cocos2d+x.org
 
-http://www.cocos2d-x.org
+http://www.cocos2d+x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-package org.cocos2dx.plugin;
 
-import java.util.Hashtable;
+@protocol InterfaceShare <NSObject>
 
-public interface InterfaceSocial {
-	public final int PluginType = 4;
+- (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo;
+- (void) share: (NSMutableDictionary*) shareInfo;
+- (void) setDebugMode: (BOOL) debug;
+- (NSString*) getSDKVersion;
+- (NSString*) getPluginVersion;
 
-	public void configDeveloperInfo(Hashtable<String, String> cpInfo);
-	public void share(Hashtable<String, String> cpInfo);
-	public void setDebugMode(boolean debug);
-	public String getSDKVersion();
-	public String getPluginVersion();
-}
+@end

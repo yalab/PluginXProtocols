@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "ProtocolSocial.h"
+#include "ProtocolShare.h"
 #include "PluginJniHelper.h"
 #include <android/log.h>
 #include "PluginUtils.h"
@@ -30,38 +30,38 @@ THE SOFTWARE.
 namespace cocos2d { namespace plugin {
 
 extern "C" {
-	JNIEXPORT void JNICALL Java_org_cocos2dx_plugin_SocialWrapper_nativeOnShareResult(JNIEnv*  env, jobject thiz, jstring className, jint ret, jstring msg)
+	JNIEXPORT void JNICALL Java_org_cocos2dx_plugin_ShareWrapper_nativeOnShareResult(JNIEnv*  env, jobject thiz, jstring className, jint ret, jstring msg)
 	{
 		std::string strMsg = PluginJniHelper::jstring2string(msg);
 		std::string strClassName = PluginJniHelper::jstring2string(className);
 		PluginProtocol* pPlugin = PluginUtils::getPluginPtr(strClassName);
-		PluginUtils::outputLog("ProtocolSocial", "nativeOnShareResult(), Get plugin ptr : %p", pPlugin);
+		PluginUtils::outputLog("ProtocolShare", "nativeOnShareResult(), Get plugin ptr : %p", pPlugin);
 		if (pPlugin != NULL)
 		{
-			PluginUtils::outputLog("ProtocolSocial", "nativeOnShareResult(), Get plugin name : %s", pPlugin->getPluginName());
-			ProtocolSocial* pSocial = dynamic_cast<ProtocolSocial*>(pPlugin);
-			if (pSocial != NULL)
+			PluginUtils::outputLog("ProtocolShare", "nativeOnShareResult(), Get plugin name : %s", pPlugin->getPluginName());
+			ProtocolShare* pShare = dynamic_cast<ProtocolShare*>(pPlugin);
+			if (pShare != NULL)
 			{
-				pSocial->onShareResult((ShareResultCode) ret, strMsg.c_str());
+				pShare->onShareResult((ShareResultCode) ret, strMsg.c_str());
 			}
 		}
 	}
 }
 
-ProtocolSocial::ProtocolSocial()
+ProtocolShare::ProtocolShare()
 : _listener(NULL)
 {
 }
 
-ProtocolSocial::~ProtocolSocial()
+ProtocolShare::~ProtocolShare()
 {
 }
 
-void ProtocolSocial::configDeveloperInfo(TSocialDeveloperInfo devInfo)
+void ProtocolShare::configDeveloperInfo(TShareDeveloperInfo devInfo)
 {
     if (devInfo.empty())
     {
-        PluginUtils::outputLog("ProtocolSocial", "The developer info is empty!");
+        PluginUtils::outputLog("ProtocolShare", "The developer info is empty!");
         return;
     }
     else
@@ -84,7 +84,7 @@ void ProtocolSocial::configDeveloperInfo(TSocialDeveloperInfo devInfo)
     }
 }
 
-void ProtocolSocial::share(TShareInfo info)
+void ProtocolShare::share(TShareInfo info)
 {
     if (info.empty())
     {
@@ -92,7 +92,7 @@ void ProtocolSocial::share(TShareInfo info)
         {
             onShareResult(kShareFail, "Share info error");
         }
-        PluginUtils::outputLog("ProtocolSocial", "The Share info is empty!");
+        PluginUtils::outputLog("ProtocolShare", "The Share info is empty!");
         return;
     }
     else
@@ -115,12 +115,12 @@ void ProtocolSocial::share(TShareInfo info)
     }
 }
 
-void ProtocolSocial::setResultListener(ShareResultListener* pListener)
+void ProtocolShare::setResultListener(ShareResultListener* pListener)
 {
 	_listener = pListener;
 }
 
-void ProtocolSocial::onShareResult(ShareResultCode ret, const char* msg)
+void ProtocolShare::onShareResult(ShareResultCode ret, const char* msg)
 {
     if (_listener)
     {
@@ -128,9 +128,9 @@ void ProtocolSocial::onShareResult(ShareResultCode ret, const char* msg)
     }
     else
     {
-        PluginUtils::outputLog("ProtocolSocial", "Result listener is null!");
+        PluginUtils::outputLog("ProtocolShare", "Result listener is null!");
     }
-    PluginUtils::outputLog("ProtocolSocial", "Share result is : %d(%s)", (int) ret, msg);
+    PluginUtils::outputLog("ProtocolShare", "Share result is : %d(%s)", (int) ret, msg);
 }
 
 }} // namespace cocos2d { namespace plugin {

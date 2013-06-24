@@ -22,12 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-@protocol InterfaceSocial <NSObject>
+#import "ShareWrapper.h"
+#include "PluginUtilsIOS.h"
+#include "ProtocolShare.h"
 
-- (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo;
-- (void) share: (NSMutableDictionary*) shareInfo;
-- (void) setDebugMode: (BOOL) debug;
-- (NSString*) getSDKVersion;
-- (NSString*) getPluginVersion;
+using namespace cocos2d::plugin;
+
+@implementation ShareWrapper
+
++ (void) onShareResult:(id) obj withRet:(ShareResult) ret withMsg:(NSString*) msg
+{
+    PluginProtocol* pPlugin = PluginUtilsIOS::getPluginPtr(obj);
+    ProtocolShare* pShare = dynamic_cast<ProtocolShare*>(pPlugin);
+    if (pShare) {
+        const char* chMsg = [msg UTF8String];
+        ShareResultCode cRet = (ShareResultCode) ret;
+        pShare->onShareResult(cRet, chMsg);
+    } else {
+        PluginUtilsIOS::outputLog("Can't find the C++ object of the Share plugin");
+    }
+}
 
 @end

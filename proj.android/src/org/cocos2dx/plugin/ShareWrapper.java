@@ -1,7 +1,7 @@
 /****************************************************************************
-Copyright (c) 2012+2013 cocos2d+x.org
+Copyright (c) 2012-2013 cocos2d-x.org
 
-http://www.cocos2d+x.org
+http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,21 +21,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+package org.cocos2dx.plugin;
 
-#import <Foundation/Foundation.h>
+public class ShareWrapper {
+	public static final int SHARERESULT_SUCCESS = 0;
+	public static final int SHARERESULT_FAIL    = 1;
+	public static final int SHARERESULT_CANCEL  = 2;
+	public static final int SHARERESULT_TIMEOUT = 3;
 
-typedef enum {
-    kShareSuccess = 0,
-    kShareFail,
-    kShareCancel,
-    kShareTimeOut,
-} ShareResult;
-
-@interface SocialWrapper : NSObject
-{
-    
+	public static void onShareResult(InterfaceShare obj, int ret, String msg) {
+		final int curRet = ret;
+		final String curMsg = msg;
+		final InterfaceShare curAdapter = obj;
+		PluginWrapper.runOnGLThread(new Runnable() {
+			@Override
+			public void run() {
+				String name = curAdapter.getClass().getName();
+				name = name.replace('.', '/');
+				nativeOnShareResult(name, curRet, curMsg);
+			}
+		});
+	}
+	private static native void nativeOnShareResult(String className, int ret, String msg);
 }
-
-+ (void) onShareResult:(id) obj withRet:(ShareResult) ret withMsg:(NSString*) msg;
-
-@end

@@ -22,25 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#import "SocialWrapper.h"
-#include "PluginUtilsIOS.h"
-#include "ProtocolSocial.h"
+#import <Foundation/Foundation.h>
 
-using namespace cocos2d::plugin;
+typedef enum {
+    kShareSuccess = 0,
+    kShareFail,
+    kShareCancel,
+    kShareTimeOut,
+} ShareResult;
 
-@implementation SocialWrapper
-
-+ (void) onShareResult:(id) obj withRet:(ShareResult) ret withMsg:(NSString*) msg
+@interface ShareWrapper : NSObject
 {
-    PluginProtocol* pPlugin = PluginUtilsIOS::getPluginPtr(obj);
-    ProtocolSocial* pSocial = dynamic_cast<ProtocolSocial*>(pPlugin);
-    if (pSocial) {
-        const char* chMsg = [msg UTF8String];
-        ShareResultCode cRet = (ShareResultCode) ret;
-        pSocial->onShareResult(cRet, chMsg);
-    } else {
-        PluginUtilsIOS::outputLog("Can't find the C++ object of the social plugin");
-    }
+    
 }
+
++ (void) onShareResult:(id) obj withRet:(ShareResult) ret withMsg:(NSString*) msg;
 
 @end
