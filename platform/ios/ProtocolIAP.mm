@@ -138,6 +138,12 @@ void ProtocolIAP::onPayResult(PayResultCode ret, const char* msg)
     {
         _listener->onPayResult(ret, msg, _curInfo);
     }
+    else if(getCallback())
+    {
+        int status = static_cast<int>(ret);
+        std::string message = std::string(msg);
+        getCallback()(status, message);
+    }
     else
     {
         PluginUtilsIOS::outputLog("Pay result listener of %s is null!", this->getPluginName());
