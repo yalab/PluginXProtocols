@@ -30,6 +30,7 @@ public interface InterfaceIAP {
 
 	public void configDeveloperInfo(Hashtable<String, String> cpInfo);
 	public void payForProduct(Hashtable<String, String> cpInfo);
+	public void consumeForProduct(Hashtable<String, String> cpInfo);
 	public void setDebugMode(boolean debug);
 	public String getSDKVersion();
 	public String getPluginVersion();

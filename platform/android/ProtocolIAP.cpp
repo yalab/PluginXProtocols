@@ -133,11 +133,58 @@ void ProtocolIAP::payForProduct(TProductInfo info)
     }
 }
 
+void ProtocolIAP::consumeForProduct(TProductInfo info)
+{
+    if (_consumeing)
+    {
+        PluginUtils::outputLog("ProtocolIAP", "Now is consumeing");
+        return;
+    }
+
+    if (info.empty())
+    {
+        if (NULL != _listener)
+        {
+            onConsumeResult(kConsumeFail, "Product info error");
+        }
+        PluginUtils::outputLog("ProtocolIAP", "The product info is empty!");
+        return;
+    }
+    else
+    {
+        _consumeing = true;
+        _curInfo = info;
+
+        PluginJavaData* pData = PluginUtils::getPluginJavaData(this);
+		PluginJniMethodInfo t;
+		if (PluginJniHelper::getMethodInfo(t
+			, pData->jclassName.c_str()
+			, "consumeForProduct"
+			, "(Ljava/util/Hashtable;)V"))
+		{
+			// generate the hashtable from map
+			jobject obj_Map = PluginUtils::createJavaMapObject(&info);
+
+			// invoke java method
+			t.env->CallVoidMethod(pData->jobj, t.methodID, obj_Map);
+			t.env->DeleteLocalRef(obj_Map);
+			t.env->DeleteLocalRef(t.classID);
+		}
+    }
+}
+
 void ProtocolIAP::payForProduct(TProductInfo info, ProtocolIAPCallback cb)
 {
 	_callback = cb;
 	payForProduct(info);
 }
+
+void ProtocolIAP::consumeForProduct(TProductInfo info, ProtocolIAPCallback cb)
+{
+	_callback = cb;
+	consumeForProduct(info);
+}
+
 
 void ProtocolIAP::setResultListener(PayResultListener* pListener)
 {
