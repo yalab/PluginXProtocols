@@ -198,6 +198,11 @@ void ProtocolIAP::onPayResult(PayResultCode ret, const char* msg)
     {
     	_listener->onPayResult(ret, msg, _curInfo);
     }
+    else if(_callback)
+    {
+      auto msgStr = std::string(msg);
+      _callback(ret, msgStr);
+    }
     else
     {
         PluginUtils::outputLog("ProtocolIAP", "Result listener is null!");
