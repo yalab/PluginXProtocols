@@ -93,6 +93,16 @@ void ProtocolIAP::payForProduct(TProductInfo info)
         }
     }
 }
+    void ProtocolIAP::consumeForProduct(TProductInfo info,ProtocolIAPCallback callback)
+    {
+        PluginUtilsIOS::outputLog("Need to implement consumeForProduct(TProductInfo info,ProtocolIAPCallback callback)");
+    }
+
+    void ProtocolIAP::consumeForProduct(TProductInfo info)
+    {
+        PluginUtilsIOS::outputLog("Need to implement consumeForProduct(TProductInfo info)");
+    }
+
     void ProtocolIAP::payForProduct(TProductInfo info,ProtocolIAPCallback callback)
     {
         if (_paying)

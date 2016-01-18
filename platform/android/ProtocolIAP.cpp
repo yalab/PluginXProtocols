@@ -135,7 +135,7 @@ void ProtocolIAP::payForProduct(TProductInfo info)
 
 void ProtocolIAP::consumeForProduct(TProductInfo info)
 {
-    if (_consumeing)
+    if (_paying)
     {
         PluginUtils::outputLog("ProtocolIAP", "Now is consumeing");
         return;
@@ -145,14 +145,14 @@ void ProtocolIAP::consumeForProduct(TProductInfo info)
     {
         if (NULL != _listener)
         {
-            onConsumeResult(kConsumeFail, "Product info error");
+            onPayResult(kPayFail, "Product info error");
         }
         PluginUtils::outputLog("ProtocolIAP", "The product info is empty!");
         return;
     }
     else
     {
-        _consumeing = true;
+        _paying = true;
         _curInfo = info;
 
         PluginJavaData* pData = PluginUtils::getPluginJavaData(this);

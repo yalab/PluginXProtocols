@@ -84,6 +84,7 @@ public:
     void payForProduct(TProductInfo info);
     void payForProduct(TProductInfo info, ProtocolIAPCallback cb);
 
+    void consumeForProduct(TProductInfo info);
     void consumeForProduct(TProductInfo info, ProtocolIAPCallback cb);
 
     /**
@@ -125,7 +126,6 @@ public:
     }
 protected:
     static bool _paying;
-    static bool _consumeing;
 
     TProductInfo _curInfo;
     PayResultListener* _listener;
